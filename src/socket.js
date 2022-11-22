@@ -21,16 +21,16 @@ function initSocket(server) {
       let user;
 
       for (let i = 0; i < usuariosActivos.length; i++) {
-        if(usuariosActivos[i].id === socket.id) {
-            user = usuariosActivos[i];
-            break;
+        if (usuariosActivos[i].id === socket.id) {
+          user = usuariosActivos[i];
+          break;
         }
       }
 
       io.emit("chat new msg all", {
         msg,
         name: user.name,
-        id : socket.id
+        id: socket.id,
       });
     });
 
