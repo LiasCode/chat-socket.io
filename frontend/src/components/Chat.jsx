@@ -41,9 +41,8 @@ export function Chat() {
         {messagges.map((msg, index) => {
           return (
             <div
-              className={`chat-msg-box ${
-                msg.id === socket.id ? "chat-msg-box-user" : ""
-              }`}
+              className={`chat-msg-box ${msg.id === socket.id ? "chat-msg-box-user" : ""
+                }`}
               ref={index === messagges.length - 1 ? lastElementRef : null}
               key={msg.msgId}
             >
@@ -80,7 +79,7 @@ const ChatContainer = styled.div`
   height: auto;
   min-height: 100%;
   background: #0f2027;
-  flex: 1;
+  flex : 1;
 
   position: relative;
   display: flex;
@@ -185,7 +184,6 @@ const ChatFormContainer = styled.div`
       @media screen and (device-width < 500px) {
         display: none;
       }
-
     }
   }
 `;

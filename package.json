@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "build": "npm-run-all build:*",
-    "build:frontend": "vite build",
+    "build:frontend": "vite build --emptyOutDir",
     "dev": "npm-run-all -p dev:*",
     "dev:server": "clear && nodemon ./src/index.js",
     "dev:frontend": "vite",

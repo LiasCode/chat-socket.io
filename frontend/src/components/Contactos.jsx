@@ -23,8 +23,7 @@ export function Contactos() {
 
 const ContactosContainer = styled.div`
   width: 30%;
-  flex: 1;
-  max-width: 300px;
+  max-width: 350px;
   min-height: 100%;
   height: 100%;
   background-color: #ada9bb;
