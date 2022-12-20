@@ -18,4 +18,5 @@ export default defineConfig({
     open: true,
   },
   envDir: process.cwd(),
+
 });
