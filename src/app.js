@@ -11,9 +11,10 @@ App.use(express.urlencoded({ extended: true }));
 App.use(express.json());
 
 // ### Statics
+App.use(express.static(process.cwd() + "/public/"));
 
 // ### Router
-App.get("/", (_req, res) => {
+App.get("*", (_req, res) => {
   res.sendFile(process.cwd() + "/public/index.html");
 });
 

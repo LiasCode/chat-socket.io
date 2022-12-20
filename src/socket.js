@@ -4,13 +4,17 @@ const crypto = require("crypto");
 let usuariosActivos = [];
 
 function initSocket(server) {
-  const io = new socketIO.Server(server);
+  const io = new socketIO.Server(server, {
+    cors: {
+      origin: "*",
+    },
+  });
 
   // socket
   io.on("connection", (socket) => {
-    console.log("a user connected");
+    console.log("User connected");
 
-    addUser({ id: socket.id, name: "user" + crypto.randomInt(1, 1000) });
+    addUser({ id: socket.id, name: "user" + crypto.randomInt(1, 10000) });
     console.log(usuariosActivos);
 
     io.emit("new_user", usuariosActivos);
@@ -31,6 +35,7 @@ function initSocket(server) {
         msg,
         name: user.name,
         id: socket.id,
+        msgId: crypto.randomInt(1, 10000),
       });
     });
 
@@ -41,6 +46,7 @@ function initSocket(server) {
       console.log(usuariosActivos);
       io.emit("new_user", usuariosActivos);
     });
+
   });
 }
 
