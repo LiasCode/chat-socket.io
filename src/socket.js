@@ -17,6 +17,10 @@ function initSocket(server) {
     console.log("User connected");
 
     socket.on("join", (data) => {
+      if (!data.name) {
+        socket.disconnect();
+        return;
+      }
       addUser({ id: socket.id, name: data.name });
       io.emit("new_user", usuariosActivos);
       console.log(usuariosActivos);

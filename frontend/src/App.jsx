@@ -11,7 +11,9 @@ export default function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    if (!userName){
+      return;
+    }
     socket.emit("join", {
       name: userName,
     })
