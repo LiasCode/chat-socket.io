@@ -16,6 +16,7 @@ export function Chat() {
             name: msgData.name,
             id: msgData.id,
             msgId: msgData.msgId,
+            color: msgData.color,
           },
         ])
       );
@@ -36,22 +37,23 @@ export function Chat() {
 
   return (
     <ChatContainer>
-
-      <ChatMsg className="scrollbar-transparent">
+      <ChatMsgsBox className="scrollbar-transparent">
         {messagges.map((msg, index) => {
           return (
-            <div
-              className={`chat-msg-box ${msg.id === socket.id ? "chat-msg-box-user" : ""
-                }`}
+            <ChatMsg
+              className={`chat-msg-box ${
+                msg.id === socket.id ? "chat-msg-box-user" : ""
+              }`}
               ref={index === messagges.length - 1 ? lastElementRef : null}
               key={msg.msgId}
+              userColor={msg.color}
             >
               <span className="chat-msg-user">{msg.name}</span>
               <p className="chat-msg-texto">{msg.msg}</p>
-            </div>
+            </ChatMsg>
           );
         })}
-      </ChatMsg>
+      </ChatMsgsBox>
 
       <ChatFormContainer>
         <form
@@ -67,7 +69,12 @@ export function Chat() {
             onChange={(e) => setMsgText(e.target.value)}
           />
 
-          <button type="submit">Enviar</button>
+          <button type="submit" className="pc">
+            Enviar
+          </button>
+          <button type="submit" className="movil">
+            🚀
+          </button>
         </form>
       </ChatFormContainer>
     </ChatContainer>
@@ -79,7 +86,7 @@ const ChatContainer = styled.div`
   height: auto;
   min-height: 100%;
   background: #0f2027;
-  flex : 1;
+  flex: 1;
 
   position: relative;
   display: flex;
@@ -92,7 +99,7 @@ const ChatContainer = styled.div`
   }
 `;
 
-const ChatMsg = styled.div`
+const ChatMsgsBox = styled.div`
   width: 100%;
   height: 92%;
   overflow-x: hidden;
@@ -104,44 +111,46 @@ const ChatMsg = styled.div`
   flex-direction: column;
   align-items: flex-start;
   scroll-behavior: smooth;
+`;
+const ChatMsg = styled.div`
+  width: 50%;
+  height: auto;
+  max-width: 350px;
+  border-radius: 10px;
+  border: 1px solid
+    ${(props) => {
+      if (!props.userColor) return "#ccc";
+      return `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})`;
+    }};
+  margin: 15px 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
-  .chat-msg-box {
-    width: 50%;
-    height: auto;
-    max-width: 350px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin: 15px 0;
-    color: #fff;
+  &.chat-msg-box-user {
+    align-self: flex-end;
+  }
+
+  .chat-msg-user {
+    width: max-content;
+    height: 30px;
+    padding: 0 10px;
+    text-align: right;
+    border-bottom: 1px solid #fff;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    /* border : 1px solid red; */
+  }
 
-    &.chat-msg-box-user {
-      align-self: flex-end;
-    }
-
-    .chat-msg-user {
-      width: max-content;
-      height: 30px;
-      padding: 0 10px;
-      text-align: right;
-      border-bottom: 1px solid #fff;
-      display: flex;
-      /* border : 1px solid red; */
-    }
-
-    .chat-msg-texto {
-      display: flex;
-      width: 100%;
-      height: max-content;
-      overflow: hidden;
-      padding: 10px;
-      color: #fff;
-    }
+  .chat-msg-texto {
+    display: flex;
+    width: 100%;
+    height: max-content;
+    overflow: hidden;
+    padding: 10px;
+    color: #fff;
   }
 `;
-
 const ChatFormContainer = styled.div`
   width: 100%;
   height: 50px;
@@ -166,22 +175,31 @@ const ChatFormContainer = styled.div`
       border-radius: 10px;
 
       :focus {
-        box-shadow : 0 0 6px #fff;
+        box-shadow: 0 0 6px #fff;
       }
     }
 
     button {
       width: 15%;
       height: 100%;
-      min-width : max-content;
+      min-width: max-content;
       font-size: 1rem;
-      margin: 0 10px 0 0;
       cursor: pointer;
       border-radius: 10px;
       background-color: #ada9bb;
       box-shadow: 2px 0px 10px #000;
+    }
+    button.movil {
+      width: 45px;
+      min-width: 45px;
+      height: 100%;
 
-      @media screen and (device-width < 500px) {
+      @media screen and (min-width: 500px) {
+        display: none;
+      }
+    }
+    button.pc {
+      @media screen and (max-width: 500px) {
         display: none;
       }
     }
