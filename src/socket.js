@@ -4,6 +4,7 @@ const crypto = require("crypto");
 let usuariosActivos = [];
 
 function initSocket(server) {
+
   const io = new socketIO.Server(server, {
     cors: {
       origin: "*",
@@ -21,7 +22,8 @@ function initSocket(server) {
         addUser({ id: socket.id, name: data.name });
         io.emit("new_user", usuariosActivos);
         console.log(usuariosActivos);
-      } catch (error) {
+      }
+      catch (error) {
         console.log({ error });
         socket.emit("join fail", error);
       }
@@ -51,7 +53,8 @@ function initSocket(server) {
           msgId: crypto.randomInt(1, 10000),
           color: user.color,
         });
-      } catch (error) {
+      }
+      catch (error) {
         console.log({ error });
       }
     });

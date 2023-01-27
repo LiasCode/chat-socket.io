@@ -9,5 +9,6 @@ const server = http.createServer(App);
 initSocket(server);
 
 server.listen(App.get("port"), () => {
-    console.log("Server on port:" + App.get("port"));
+  console.log("Server on port:" + App.get("port"));
 });
+

@@ -31,7 +31,7 @@ const ContactosContainer = styled.div`
   min-height: 100%;
   height: 100%;
   background-color: #ada9bb;
-  box-shadow: 2px 0px 10px #000;
+  box-shadow: 2px 0 0 #fff;
   color: #000;
 
   position: relative;
@@ -46,8 +46,9 @@ const ContactosContainer = styled.div`
   overflow-y: auto;
 
   h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
+    width : 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -64,12 +65,20 @@ const ContactosContainer = styled.div`
 `;
 const ContactoCard = styled.div`
   width: 100%;
-  height: 50px;
-  min-height: 50px;
+  height: 60px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  padding : 10px; 
+  border-radius : 10px;
 
+  border: 2px solid ${(props) => {
+    return (
+      `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
+      "none"
+    );
+  }};
 
   img {
     width: 40px;
@@ -81,6 +90,13 @@ const ContactoCard = styled.div`
     margin: 0 15px 0 0;
     padding: 5px;
     box-shadow: 0px 0px 5px #ccc;
+
+    border: 2px solid ${(props) => {
+      return (
+        `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
+        "none"
+      );
+    }};
   }
 
   span {

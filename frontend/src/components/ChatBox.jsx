@@ -2,7 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import { socket } from "../services/socket";
 import styled from "styled-components";
 
-export function Chat() {
+export function ChatBox() {
   const [messagges, setMessagges] = useState([]);
   const [msgText, setMsgText] = useState("");
   const lastElementRef = createRef();
@@ -41,9 +41,8 @@ export function Chat() {
         {messagges.map((msg, index) => {
           return (
             <ChatMsg
-              className={`chat-msg-box ${
-                msg.id === socket.id ? "chat-msg-box-user" : ""
-              }`}
+              className={`chat-msg-box ${msg.id === socket.id ? "chat-msg-box-user" : ""
+                }`}
               ref={index === messagges.length - 1 ? lastElementRef : null}
               key={msg.msgId}
               userColor={msg.color}
@@ -85,7 +84,7 @@ const ChatContainer = styled.div`
   width: auto;
   height: auto;
   min-height: 100%;
-  background: #0f2027;
+  background: #000;
   flex: 1;
 
   position: relative;
@@ -104,7 +103,7 @@ const ChatMsgsBox = styled.div`
   height: 92%;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #0f2027;
+  background: #000;
 
   padding: 2px 15px 0 15px;
   display: flex;
@@ -117,11 +116,11 @@ const ChatMsg = styled.div`
   height: auto;
   max-width: 350px;
   border-radius: 10px;
-  border: 1px solid
-    ${(props) => {
-      if (!props.userColor) return "#ccc";
-      return `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})`;
-    }};
+  border: 2px solid
+  ${(props) => {
+    if (!props.userColor) return "#ccc;";
+    return `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b});`;
+  }}
   margin: 15px 0;
   color: #fff;
   display: flex;
@@ -135,11 +134,10 @@ const ChatMsg = styled.div`
   .chat-msg-user {
     width: max-content;
     height: 30px;
-    padding: 0 10px;
+    padding: 5px 10px 10px 0;
     text-align: right;
-    border-bottom: 1px solid #fff;
+    border-bottom: 2px solid #fff;
     display: flex;
-    /* border : 1px solid red; */
   }
 
   .chat-msg-texto {
@@ -173,6 +171,8 @@ const ChatFormContainer = styled.div`
       padding-left: 10px;
       font-size: 1rem;
       border-radius: 10px;
+
+      border: 4px solid #ada9bb;
 
       :focus {
         box-shadow: 0 0 6px #fff;

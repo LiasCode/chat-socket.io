@@ -16,9 +16,9 @@ App.use(express.static(process.cwd() + "/public/"));
 
 // ### Router
 App.get("*", (_req, res) => {
-    res.sendFile(process.cwd() + "/public/index.html");
+  res.sendFile(process.cwd() + "/public/index.html");
 });
 
 module.exports = {
-    App,
+  App,
 };
