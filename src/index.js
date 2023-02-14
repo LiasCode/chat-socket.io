@@ -12,3 +12,12 @@ server.listen(App.get("port"), () => {
   console.log("Server on port:" + App.get("port"));
 });
 
+server.on("error", (err) => {
+  console.log(err);
+  process.exit(1);
+});
+
+process.on("uncaughtException", (err) => {
+  console.log(err);
+  process.exit(1);
+});

@@ -1,12 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
-
+const helmet = require("helmet");
+const compression = require("compression");
 const App = express();
 
 // ### Settings
 App.set("port", process.env.PORT || 8080);
 
 // Middlewares
+App.use(helmet());
+App.use(compression());
 App.use(morgan("dev"));
 App.use(express.urlencoded({ extended: true }));
 App.use(express.json());

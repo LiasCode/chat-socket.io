@@ -1,7 +1,7 @@
 const socketIO = require("socket.io");
 const crypto = require("crypto");
 
-let usuariosActivos = [];
+const usuariosActivos = [];
 
 function initSocket(server) {
 
