@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useNewUserSocket } from "../hooks/useNewUserSocket";
-import userIcon from "../assets/user-icon.png";
+import styled from 'styled-components';
+import { useNewUserSocket } from '../hooks/useNewUserSocket';
+import userIcon from '../assets/user-icon.png';
 
 export function Contactos() {
   const { users } = useNewUserSocket();
@@ -30,24 +30,21 @@ const ContactosContainer = styled.div`
   max-width: 350px;
   min-height: 100%;
   height: 100%;
-  background-color: #ada9bb;
-  box-shadow: 2px 0 0 #fff;
-  color: #000;
-
+  background-color: transparent;
+  color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 8px;
   z-index: 10;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
   overflow-x: hidden;
   overflow-y: auto;
+  border-right : 1px solid #fff;
 
   h2 {
     width : 100%;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     position: relative;
     display: flex;
@@ -63,6 +60,7 @@ const ContactosContainer = styled.div`
     display: none;
   }
 `;
+
 const ContactoCard = styled.div`
   width: 100%;
   height: 60px;
@@ -71,12 +69,14 @@ const ContactoCard = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding : 10px; 
-  border-radius : 10px;
+  border-top-right-radius : 10px;
+  border-bottom-right-radius : 10px;
+  margin-bottom: 5px;
 
   border: 2px solid ${(props) => {
     return (
       `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
-      "none"
+      'none'
     );
   }};
 
@@ -94,7 +94,7 @@ const ContactoCard = styled.div`
     border: 2px solid ${(props) => {
       return (
         `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
-        "none"
+        'none'
       );
     }};
   }
@@ -104,10 +104,10 @@ const ContactoCard = styled.div`
     font-size: 1rem;
     text-shadow: 2px 1px 5px #222;
     color: ${(props) => {
-    return (
-      `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
-      "none"
-    );
-  }};
+      return (
+        `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})` ||
+        'none'
+      );
+    }};
   }
 `;
