@@ -12,8 +12,12 @@
     "dev:frontend": "vite",
     "preview:frontend": "vite preview"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "chat",
+    "socket",
+    "react"
+  ],
+  "author": "LiasCode",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
