@@ -3,10 +3,12 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
 const cors = require("cors");
+
 const App = express();
 
 // ### Settings
 App.set("port", process.env.PORT || 8080);
+App.disable('x-powered-by');
 
 // Middlewares
 App.use(cors(
