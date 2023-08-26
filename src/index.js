@@ -8,8 +8,8 @@ const server = http.createServer(App);
 
 initSocket(server);
 
-server.listen(App.get("port"), () => {
-  console.log("Server on port:" + App.get("port"));
+server.listen(process.env.PORT, () => {
+  console.log("Server on port:" + process.env.PORT);
 });
 
 server.on("error", (err) => {

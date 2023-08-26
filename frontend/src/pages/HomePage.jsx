@@ -5,7 +5,6 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Link to="/chat"> Ir al Chat </Link>
-      {/**<Link to="/registrarse"> Registrarse </Link> **/}
     </HomeContainer>
   );
 }
@@ -25,8 +24,8 @@ const HomeContainer = styled.div`
   justify-content: center;
 
   a {
-    width: 300px;
-    height: 100px;
+    width: max-content;
+    padding : 20px;
     color: #fff;
     border: 1px solid #fff;
     display: flex;

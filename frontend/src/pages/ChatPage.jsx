@@ -37,7 +37,7 @@ export default function Chat() {
                 type="text"
                 placeholder="Introduzca su nombre"
                 value={userName}
-                onChange={(e) => setUserName(e.currentTarget.value || '')}
+                onChange={(e) => setUserName(e.target.value || '')}
                 autoFocus={true}
               />
               <button type="submit">Aceptar</button>
@@ -56,7 +56,7 @@ export default function Chat() {
 
 const NameRegisterBox = styled.div`
   width: 40%;
-  min-width: 500px;
+  min-width: max-content;
   height: 250px;
   background-color: #fff;
   border-radius: 10px;

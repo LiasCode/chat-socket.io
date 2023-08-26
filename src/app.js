@@ -2,12 +2,19 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
+const cors = require("cors");
 const App = express();
 
 // ### Settings
 App.set("port", process.env.PORT || 8080);
 
 // Middlewares
+App.use(cors(
+  {
+    origin: process.env.VITE_SOCKET_URL,
+    optionsSuccessStatus: 200
+  }
+));
 App.use(helmet());
 App.use(compression());
 App.use(morgan("dev"));

@@ -2,14 +2,16 @@ const socketIO = require("socket.io");
 const crypto = require("crypto");
 
 const usuariosActivos = [];
+const socketServerPath = process.env.VITE_SOCKET_PATH;
 
 function initSocket(server) {
 
   const io = new socketIO.Server(server, {
     cors: {
-      origin: "*",
+      origin: process.env.VITE_SOCKET_URL,
+      optionsSuccessStatus: 200
     },
-    path: "/socket/chat",
+    path: socketServerPath,
   });
 
   // socket
