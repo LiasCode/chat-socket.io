@@ -4,7 +4,7 @@
   "description": "A real time chat maked with nodejs , socket.io and reactjs",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_MODE=production node ./src/index.js",
+    "start": "NODE_ENV=production node ./src/index.js",
     "build": "npm-run-all build:*",
     "build:frontend": "vite build",
     "dev": "npm-run-all -p dev:*",
