@@ -2,7 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import { socket } from "../services/socket";
 import styled from "styled-components";
 
-export function ChatBox() {
+export function ChatBox({ userName }) {
   const [messagges, setMessagges] = useState([]);
   const [msgText, setMsgText] = useState("");
   const lastElementRef = createRef();
@@ -20,9 +20,9 @@ export function ChatBox() {
       ])
     );
   };
+
   useEffect(() => {
     socket.on("chat new msg all", newMsgToAllHandler);
-
     return () => socket.of("chat new msg all", newMsgToAllHandler);
   }, []);
 
@@ -45,7 +45,7 @@ export function ChatBox() {
           return (
             <ChatMsg
               className={`chat-msg-box ${
-                msg.id === socket.id ? "chat-msg-box-user" : ""
+                msg.name === userName ? "chat-msg-box-user" : ""
               }`}
               ref={index === messagges.length - 1 ? lastElementRef : null}
               key={msg.msgId}

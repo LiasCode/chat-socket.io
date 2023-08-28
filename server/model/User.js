@@ -1,5 +1,5 @@
 const { randomUUID } = require("node:crypto");
-const { createRandomColor } = require("../utils/createRandomColor");
+const { createRandomColor } = require("../../utils/createRandomColor");
 
 const UserValidationError = new Error("Invalid User");
 
