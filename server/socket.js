@@ -1,31 +1,32 @@
 const socketIO = require("socket.io");
 const crypto = require("crypto");
+const { UserModel } = require("../model/User");
 
-const usuariosActivos = [];
+const activeUserSafeData = [];
+const users = [];
 const socketServerPath = process.env.VITE_SOCKET_PATH;
 
 function initSocket(server) {
-
   const io = new socketIO.Server(server, {
     cors: {
       origin: process.env.VITE_SOCKET_URL,
-      optionsSuccessStatus: 200
+      optionsSuccessStatus: 200,
     },
     path: socketServerPath,
   });
 
   // socket
   io.on("connection", (socket) => {
-    console.log("User connected");
+    console.log("New Socket connected");
 
     socket.on("join", (data) => {
       try {
-        if (!data.name) throw new Error("join fail");
-        addUser({ id: socket.id, name: data.name });
-        io.emit("new_user", usuariosActivos);
-        console.log(usuariosActivos);
-      }
-      catch (error) {
+        const newUser = new UserModel(socket.id, data.name);
+        if (!newUser) throw new Error("join fail");
+        addUser(newUser);
+        io.emit("new_user", activeUserSafeData);
+        console.log(activeUserSafeData);
+      } catch (error) {
         console.log({ error });
         socket.emit("join fail", error);
       }
@@ -36,27 +37,28 @@ function initSocket(server) {
         if (typeof String(msg) !== "string")
           throw new Error("Msg no valido -> socket.id -> " + socket.id);
 
-        console.log({ msg, id: socket.id });
+        console.log({ msg, socketId: socket.id });
 
         let user;
 
-        for (let i = 0; i < usuariosActivos.length; i++) {
-          if (usuariosActivos[i].id === socket.id) {
-            user = usuariosActivos[i];
+        for (let i = 0; i < activeUserSafeData.length; i++) {
+          if (users[i].socketId === socket.id) {
+            user = users[i];
             break;
           }
         }
+        if (!user) throw new Error("Invalid User");
+
         console.log(`${user.name} says : ${{ msg }}`);
 
         io.emit("chat new msg all", {
           msg,
+          msgId: crypto.randomUUID(),
           name: user.name,
-          id: socket.id,
-          msgId: crypto.randomInt(1, 10000),
+          id: user.id,
           color: user.color,
         });
-      }
-      catch (error) {
+      } catch (error) {
         console.log({ error });
       }
     });
@@ -64,34 +66,41 @@ function initSocket(server) {
     // close connection
     socket.on("disconnect", () => {
       console.log("user disconnected");
-      removeUser({ id: socket.id });
-      console.log(usuariosActivos);
-      io.emit("new_user", usuariosActivos);
+      removeUser({ socketId: socket.id });
+      console.log(activeUserSafeData);
+      io.emit("new_user", activeUserSafeData);
     });
   });
 }
 
-function createRandomColor() {
-  const r = crypto.randomInt(0, 255);
-  const g = crypto.randomInt(0, 255);
-  const b = crypto.randomInt(0, 255);
-
-  return { r, g, b };
+function addUser(newUser) {
+  users.push(newUser);
+  activeUserSafeData.push({
+    id: newUser.id,
+    color: newUser.color,
+    name: newUser.name,
+  });
 }
 
-function addUser({ id, name }) {
-  usuariosActivos.push({ id, name, color: createRandomColor() });
-}
+function removeUser({ socketId }) {
+  if (!socketId) return;
+  let currentUserId = "";
 
-function removeUser({ id }) {
-  if (!id) return;
-
-  for (let i = 0; i < usuariosActivos.length; i++) {
-    if (usuariosActivos[i].id === id) {
-      usuariosActivos.splice(i, 1);
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].socketId === socketId) {
+      currentUserId = users[i].id ;
+      users.splice(i, 1);
       break;
     }
   }
+
+  for (let i = 0; i < activeUserSafeData.length; i++) {
+    if (activeUserSafeData[i].id === currentUserId) {
+      activeUserSafeData.splice(i, 1);
+      break;
+    }
+  }
+
 }
 
 module.exports = {
