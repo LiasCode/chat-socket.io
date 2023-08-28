@@ -1,26 +1,29 @@
-import { createRef, useEffect, useState } from 'react';
-import { socket } from '../services/socket';
-import styled from 'styled-components';
+import { createRef, useEffect, useState } from "react";
+import { socket } from "../services/socket";
+import styled from "styled-components";
 
-export function ChatBox() {
+export function ChatBox({ userName }) {
   const [messagges, setMessagges] = useState([]);
-  const [msgText, setMsgText] = useState('');
+  const [msgText, setMsgText] = useState("");
   const lastElementRef = createRef();
 
+  const newMsgToAllHandler = (msgData) => {
+    setMessagges((prevState) =>
+      prevState.concat([
+        {
+          msg: msgData.msg,
+          name: msgData.name,
+          id: msgData.id,
+          msgId: msgData.msgId,
+          color: msgData.color,
+        },
+      ])
+    );
+  };
+
   useEffect(() => {
-    socket.on('chat new msg all', (msgData) => {
-      setMessagges((prevState) =>
-        prevState.concat([
-          {
-            msg: msgData.msg,
-            name: msgData.name,
-            id: msgData.id,
-            msgId: msgData.msgId,
-            color: msgData.color,
-          },
-        ])
-      );
-    });
+    socket.on("chat new msg all", newMsgToAllHandler);
+    return () => socket.of("chat new msg all", newMsgToAllHandler);
   }, []);
 
   useEffect(() => {
@@ -31,8 +34,8 @@ export function ChatBox() {
     event.preventDefault();
     event.stopPropagation();
     if (!msgText) return;
-    socket.emit('chat new msg all', msgText);
-    setMsgText('');
+    socket.emit("chat new msg all", msgText);
+    setMsgText("");
   }
 
   return (
@@ -42,7 +45,7 @@ export function ChatBox() {
           return (
             <ChatMsg
               className={`chat-msg-box ${
-                msg.id === socket.id ? 'chat-msg-box-user' : ''
+                msg.name === userName ? "chat-msg-box-user" : ""
               }`}
               ref={index === messagges.length - 1 ? lastElementRef : null}
               key={msg.msgId}
@@ -111,7 +114,7 @@ const ChatMsgsBox = styled.div`
     width: 100%;
   }
   @media screen and (min-width: 500px) {
-    min-width : 70%;
+    min-width: 70%;
   }
   display: flex;
   flex-direction: column;
@@ -124,10 +127,10 @@ const ChatMsg = styled.div`
   max-width: 350px;
   border-radius: 10px;
   border: 2px solid
-  ${(props) => {
-    if (!props.userColor) return '#ccc;';
-    return `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b});`;
-  }}
+    ${(props) => {
+      if (!props.userColor) return "#ccc;";
+      return `rgb(${props.userColor.r},${props.userColor.g},${props.userColor.b})`;
+    }};
   margin: 15px 0;
   color: #fff;
   display: flex;
@@ -167,7 +170,7 @@ const ChatFormContainer = styled.div`
   justify-content: center;
   position: absolute;
   bottom: 1%;
- 
+
   form {
     width: 100%;
     height: 100%;
@@ -182,21 +185,20 @@ const ChatFormContainer = styled.div`
         width: 80%;
       }
       @media screen and (min-width: 500px) {
-        min-width : 320px;
+        min-width: 320px;
       }
       height: 100%;
       padding-left: 10px;
       font-size: 1rem;
       border-radius: 10px;
       margin-right: 10px;
-
     }
 
     button {
       width: 10%;
       height: 100%;
       min-width: max-content;
-      padding : 0 5px;
+      padding: 0 5px;
       font-size: 1rem;
       cursor: pointer;
       border-radius: 10px;

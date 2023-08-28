@@ -1,28 +1,28 @@
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { Contactos } from '../components/Contactos';
-import { ChatBox } from '../components/ChatBox';
-import { socket } from '../services/socket';
-import { Modal } from '../components/Modal';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { Contactos } from "../components/Contactos";
+import { ChatBox } from "../components/ChatBox";
+import { socket } from "../services/socket";
+import { Modal } from "../components/Modal";
 
 export default function Chat() {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!userName || userName === '' || userName.length === 0) {
+    if (!userName || userName === "" || userName.length === 0) {
       return;
     }
-    socket.emit('join', {
+    socket.emit("join", {
       name: userName,
     });
     setIsModalOpen(false);
   }
 
   useEffect(() => {
-    socket.on('join fail', () => window.location.reload());
+    socket.on("join fail", () => window.location.reload());
   }, []);
 
   return (
@@ -37,7 +37,7 @@ export default function Chat() {
                 type="text"
                 placeholder="Introduzca su nombre"
                 value={userName}
-                onChange={(e) => setUserName(e.target.value || '')}
+                onChange={(e) => setUserName(e.target.value || "")}
                 autoFocus={true}
               />
               <button type="submit">Aceptar</button>
@@ -47,7 +47,7 @@ export default function Chat() {
       ) : (
         <ChatAppGeneralContainer>
           <Contactos />
-          <ChatBox />
+          <ChatBox userName={userName} />
         </ChatAppGeneralContainer>
       )}
     </>
@@ -66,8 +66,7 @@ const NameRegisterBox = styled.div`
   align-items: center;
   justify-content: center;
   padding: 4px;
-  box-shadow : 2px 2px 2px #ccc;
-
+  box-shadow: 2px 2px 2px #ccc;
 
   h2 {
     width: 100%;
@@ -97,11 +96,11 @@ const NameRegisterBox = styled.div`
       border: 1px solid #ccc;
       padding-left: 10px;
       border-radius: 10px;
-      transition : transform .3s;
-      box-shadow : 2px 2px 5px #ccc;
+      transition: transform 0.3s;
+      box-shadow: 2px 2px 5px #ccc;
 
       &:focus {
-        transform : scale(1.02);
+        transform: scale(1.02);
         border: 1px solid #ebd150;
       }
     }
@@ -111,13 +110,13 @@ const NameRegisterBox = styled.div`
       height: 60px;
       border: none;
       border-radius: 10px;
-      background-color : transparent;
-      padding : 4px;
+      background-color: transparent;
+      padding: 4px;
       cursor: pointer;
-      transition : transform .3s;
-      color : green;
+      transition: transform 0.3s;
+      color: green;
       &:hover {
-        transform : scale(1.02);
+        transform: scale(1.02);
       }
     }
   }

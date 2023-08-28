@@ -1,12 +1,20 @@
 require("dotenv/config");
+const {
+  SocketServerController,
+} = require("./controller/SocketServerController");
 
 const http = require("http");
 const { App } = require("./app");
-const { initSocket } = require("./socket");
+const { SocketServer } = require("./socket");
 
 const server = http.createServer(App);
 
-initSocket(server);
+new SocketServer({
+  httpServer: server,
+  SocketServerController: SocketServerController,
+  VITE_SOCKET_PATH: process.env.VITE_SOCKET_PATH,
+  VITE_SOCKET_URL: process.env.VITE_SOCKET_URL,
+});
 
 server.listen(process.env.PORT, () => {
   console.log("Server on port:" + process.env.PORT);

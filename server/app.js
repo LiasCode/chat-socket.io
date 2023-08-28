@@ -8,15 +8,16 @@ const App = express();
 
 // ### Settings
 App.set("port", process.env.PORT || 8080);
-App.disable('x-powered-by');
+App.disable("x-powered-by");
 
 // Middlewares
-App.use(cors(
-  {
-    origin: process.env.VITE_SOCKET_URL,
-    optionsSuccessStatus: 200
-  }
-));
+App.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production" ? process.env.VITE_SOCKET_URL : "*",
+    optionsSuccessStatus: 200,
+  })
+);
 App.use(helmet());
 App.use(compression());
 App.use(morgan("dev"));
